@@ -7,7 +7,8 @@ use Webkul\Checkout\Facades\Cart;
 use Webkul\Payment\Facades\Payment;
 use Webkul\RestApi\Http\Resources\V1\Shop\Checkout\CartResource;
 use Webkul\RestApi\Http\Resources\V1\Shop\Checkout\CartShippingRateResource;
-use Webkul\RestApi\Http\Resources\V1\Shop\Sales\OrderResource;
+//use Webkul\RestApi\Http\Resources\V1\Shop\Sales\OrderResource;
+use Webkul\Sales\Transformers\OrderResource;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Shipping\Facades\Shipping;
 use Webkul\Shop\Http\Requests\CartAddressRequest;
@@ -153,14 +154,12 @@ class CheckoutController extends CustomerController
             ]);
         }
 
-        $order = $orderRepository->create(Cart::prepareDataForOrder());
+		$data = (new OrderResource($cart))->jsonSerialize();
+        $order = $orderRepository->create($data);
 
         Cart::deActivateCart();
 
         return response([
-            'data'    => [
-                'order' => new OrderResource($order),
-            ],
             'message' => trans('rest-api::app.shop.checkout.order-saved'),
         ]);
     }
@@ -176,7 +175,7 @@ class CheckoutController extends CustomerController
 
         $minimumOrderAmount = core()->getConfigData('sales.orderSettings.minimum-order.minimum_order_amount') ?? 0;
 
-        if (! $cart->checkMinimumOrder()) {
+        if (! Cart::haveMinimumOrderAmount()) {
             throw new \Exception(trans('rest-api::app.shop.checkout.minimum-order-message', ['amount' => core()->currency($minimumOrderAmount)]));
         }
 
