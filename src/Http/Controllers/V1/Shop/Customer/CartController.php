@@ -61,7 +61,7 @@ class CartController extends CustomerController
                 Cart::deActivateCart();
             }
 
-            $cart = Cart::addProduct($product->id, request()->all());
+            $cart = Cart::addProduct($product, request()->all());
 
             if (
                 is_array($cart)
