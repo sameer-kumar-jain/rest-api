@@ -71,7 +71,7 @@ class ProductResource extends JsonResource
             /* product's checks */
             'in_stock'              => $product->haveSufficientQuantity(1),
             'is_saved'              => false,
-            'is_item_in_cart'       => Cart::hasProduct($product),
+            //'is_item_in_cart'       => Cart::hasProduct($product),
             'show_quantity_changer' => $this->when(
                 $product->type !== 'grouped',
                 $product->getTypeInstance()->showQuantityBox()
