@@ -5,7 +5,8 @@ namespace Webkul\RestApi\Http\Resources\V1\Shop\Checkout;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Webkul\RestApi\Http\Resources\V1\Shop\Core\ChannelResource;
 use Webkul\RestApi\Http\Resources\V1\Shop\Customer\CustomerResource;
-use Webkul\Tax\Helpers\Tax;
+use Webkul\Tax\Facades\Tax;
+
 
 class CartResource extends JsonResource
 {
