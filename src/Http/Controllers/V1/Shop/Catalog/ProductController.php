@@ -39,7 +39,7 @@ class ProductController extends CatalogController
      */
     public function allResources(Request $request)
     {
-        $results = $this->getRepositoryInstance()->getAll($request->input('category_id'));
+        $results = $this->getRepositoryInstance()->getAll($request->all());
 
         return $this->getResourceCollection($results);
     }
