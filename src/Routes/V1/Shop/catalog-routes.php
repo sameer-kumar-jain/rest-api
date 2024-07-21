@@ -8,6 +8,11 @@ use Webkul\RestApi\Http\Controllers\V1\Shop\Catalog\ProductController;
 use Webkul\RestApi\Http\Controllers\V1\Shop\Catalog\ProductReviewController;
 
 /**
+ * authorized routes.
+ */
+Route::group(['middleware' => ['auth:sanctum', 'sanctum.customer']], function () {
+    
+/**
  * Product routes.
  */
 Route::controller(ProductController::class)->prefix('products')->group(function () {
@@ -63,3 +68,4 @@ Route::controller(AttributeFamilyController::class)->prefix('attribute-families'
 
     Route::get('{id}', 'getResource');
 });
+})
