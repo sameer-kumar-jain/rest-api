@@ -36,6 +36,7 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
+		$customer = $request->user();
         /* assign product */
         $product = $this->product ? $this->product : $this;
 
@@ -71,6 +72,9 @@ class ProductResource extends JsonResource
             /* product's checks */
             'in_stock'              => $product->haveSufficientQuantity(1),
             'is_saved'              => false,
+			'is_wishlist' 			=> (bool) auth()->guard()->user()?->wishlist_items
+                ->where('channel_id', core()->getCurrentChannel()->id)
+                ->where('product_id', $this->id)->count(),
             //'is_item_in_cart'       => Cart::hasProduct($product),
             'show_quantity_changer' => $this->when(
                 $product->type !== 'grouped',
