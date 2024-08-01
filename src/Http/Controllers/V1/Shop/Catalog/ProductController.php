@@ -77,4 +77,20 @@ class ProductController extends CatalogController
             'data' => $configurableConfig,
         ]);
     }
+
+    /**
+     * Returns product's related products.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getRelatedProducts(Request $request, int $id)
+    {
+        $resource = $this->getRepositoryInstance()->findOrFail($id);
+
+		$relatedProducts = $resource->related_products()->get();
+		        
+        return response([
+            'data' => $this->getResourceCollection($relatedProducts),
+        ]);
+    }
 }
