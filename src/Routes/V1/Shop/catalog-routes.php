@@ -23,6 +23,8 @@ Route::controller(ProductController::class)->prefix('products')->group(function 
     Route::get('{id}/additional-information', 'additionalInformation');
 
     Route::get('{id}/configurable-config', 'configurableConfig');
+
+    Route::get('{id}/related-products', 'getRelatedProducts');
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'sanctum.customer']], function () {
