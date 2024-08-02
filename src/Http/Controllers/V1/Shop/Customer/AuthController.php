@@ -52,6 +52,7 @@ class AuthController extends CustomerController
             'password'          => bcrypt($registrationRequest->password),
             'is_verified'       => 1,
             'channel_id'        => core()->getCurrentChannel()->id,
+            'phone'              => $registrationRequest->phone,
             'customer_group_id' => $this->customerGroupRepository->findOneWhere(['code' => 'general'])->id,
         ]);
 
